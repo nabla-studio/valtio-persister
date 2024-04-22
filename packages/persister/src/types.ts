@@ -30,8 +30,6 @@ export interface PersisterOptions<T extends object> {
   skipHydration?: boolean;
   storage?: PersistStorage<T>;
   partialize?: (state: T) => T;
-  onHydrate: (fn: PersistListener<T>) => () => void;
-  onFinishHydration: (fn: PersistListener<T>) => () => void;
   onRehydrateStorage?: (
     state: T
   ) => ((state?: T, error?: Error) => void) | void;
