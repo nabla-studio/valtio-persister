@@ -1,7 +1,9 @@
 {
   "name": "valtio-persister",
   "version": "0.0.1",
-  "dependencies": {},
+  "dependencies": {
+    "valtio": "^1.13.2"
+  },
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts",
