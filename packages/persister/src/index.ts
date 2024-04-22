@@ -1,1 +1,1 @@
-export * from './lib/persister';
+export * from './types';
