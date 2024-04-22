@@ -15,6 +15,16 @@
         "assets": ["packages/persister/*.md"]
       }
     },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/persister/**/*.ts",
+          "packages/persister/package.json"
+        ]
+      }
+    },
     "test": {
       "executor": "@nx/vite:test",
       "outputs": ["{options.reportsDirectory}"],

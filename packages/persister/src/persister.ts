@@ -67,7 +67,6 @@ export const proxyWithPersister = <T extends object>(
     ...baseOptions,
   };
 
-  let hasHydrated = false;
   const storage = options.storage;
   const name = options.name;
 
@@ -82,6 +81,8 @@ export const proxyWithPersister = <T extends object>(
   const setItem = () => {
     const state = options.partialize({ ...store });
 
+    console.log('SET ITEM: ', state, store);
+
     if (!storage) return;
 
     return storage.setItem(options.name, {
@@ -94,6 +95,8 @@ export const proxyWithPersister = <T extends object>(
     if (!storage) return;
 
     const deserializedStorageValue = await storage.getItem(options.name);
+
+    console.log('GET: ', deserializedStorageValue);
 
     if (
       deserializedStorageValue &&
@@ -130,8 +133,9 @@ export const proxyWithPersister = <T extends object>(
         ...stateFromStorage,
       };
 
+      console.log('store:', store);
+
       postRehydrationCallback?.(stateFromStorage, undefined);
-      hasHydrated = true;
     } catch (e) {
       postRehydrationCallback?.(undefined, e as Error);
     }
@@ -150,7 +154,6 @@ export const proxyWithPersister = <T extends object>(
   return {
     store,
     options,
-    hasHydrated,
     hydrate,
   };
 };

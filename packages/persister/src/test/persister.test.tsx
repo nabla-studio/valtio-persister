@@ -1,7 +1,10 @@
+import { useSnapshot } from 'valtio';
+import { fireEvent, render } from '@testing-library/react';
 import { proxyWithPersister } from '../persister';
+import * as React from 'react';
 
 const initialState = {
-  testKey: 'testValue',
+  counter: 0,
 };
 const persisterName = 'test-storage';
 
@@ -11,34 +14,60 @@ describe('proxyWithPersister', () => {
       name: persisterName,
     });
 
-    store.testKey = 'testValueMutated';
+    const Counter = () => {
+      const snap = useSnapshot(store);
 
-    await Promise.resolve();
+      return (
+        <>
+          <div>count: {snap.counter}</div>
+          <button
+            onClick={() => {
+              ++store.counter;
+            }}
+          >
+            button
+          </button>
+        </>
+      );
+    };
 
-    expect(store).toStrictEqual({ testKey: 'testValueMutated' });
-    expect(localStorage.getItem(persisterName)).toStrictEqual(
-      JSON.stringify({
-        state: { testKey: 'testValueMutated' },
-        version: 0,
-      })
+    const { getByText, findByText, unmount } = render(
+      <React.StrictMode>
+        <Counter />
+      </React.StrictMode>
     );
-    expect(localStorage.length).toBe(1);
+
+    await findByText('count: 0');
+
+    fireEvent.click(getByText('button'));
+    await findByText('count: 1');
+
+    unmount();
   });
   test('proxyWithPersister should hydrate data from localStorage', async () => {
     const { store } = proxyWithPersister(initialState, {
       name: persisterName,
     });
 
-    await Promise.resolve();
+    const Counter = () => {
+      const snap = useSnapshot(store);
 
-    expect(store).toStrictEqual({ testKey: 'testValueMutated' });
-    expect(localStorage.getItem(persisterName)).toStrictEqual(
-      JSON.stringify({
-        state: { testKey: 'testValueMutated' },
-        version: 0,
-      })
+      return (
+        <>
+          <div>count: {snap.counter}</div>
+        </>
+      );
+    };
+
+    const { findByText, unmount } = render(
+      <React.StrictMode>
+        <Counter />
+      </React.StrictMode>
     );
-    expect(localStorage.length).toBe(1);
+
+    await findByText('count: 1');
+
+    unmount();
   });
   test('proxyWithPersister should not persist excluded keys to localStorage', async () => {
     const excludedKeys = ['excludedKey'];
@@ -56,14 +85,12 @@ describe('proxyWithPersister', () => {
         ) as typeof state,
     });
 
-    store.testKey = 'testValueMutated2';
-
     await Promise.resolve();
 
-    expect(store).toStrictEqual({ ...state, testKey: 'testValueMutated2' });
+    expect(store).toStrictEqual({ ...state, counter: 0 });
     expect(localStorage.getItem(persisterName)).toStrictEqual(
       JSON.stringify({
-        state: { testKey: 'testValueMutated2' },
+        state: { counter: 0 },
         version: 0,
       })
     );
