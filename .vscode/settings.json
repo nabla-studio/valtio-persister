@@ -1,5 +1,10 @@
 {
-    "conventionalCommits.scopes": [
-        "persister"
-    ]
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "typescript.preferences.importModuleSpecifier": "non-relative",
+  "typescript.preferences.importModuleSpecifierEnding": "minimal",
+  "conventionalCommits.scopes": ["persister"]
 }
