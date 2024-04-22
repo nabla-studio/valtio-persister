@@ -1,0 +1,12 @@
+{
+  "name": "valtio-persister",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {},
+  "private": true,
+  "dependencies": {},
+  "devDependencies": {
+    "@nx/js": "18.3.3",
+    "nx": "18.3.3"
+  }
+}
