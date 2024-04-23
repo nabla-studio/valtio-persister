@@ -4,10 +4,6 @@
   "dependencies": {
     "valtio": "^1.13.2"
   },
-  "peerDependencies": {
-    "@types/react": ">=16.8",
-    "react": ">=16.8"
-  },
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts",
