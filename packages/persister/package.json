@@ -1,11 +1,11 @@
 {
   "name": "valtio-persister",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "dependencies": {
     "valtio": "^1.13.2"
   },
+  "sideEffects": false,
   "main": "./index.js",
   "module": "./index.mjs",
-  "typings": "./index.d.ts",
-  "private": true
+  "typings": "./index.d.ts"
 }
