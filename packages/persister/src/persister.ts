@@ -81,8 +81,6 @@ export const proxyWithPersister = <T extends object>(
   const setItem = () => {
     const state = options.partialize({ ...store });
 
-    console.log('SET ITEM: ', state, store);
-
     if (!storage) return;
 
     return storage.setItem(options.name, {
@@ -95,8 +93,6 @@ export const proxyWithPersister = <T extends object>(
     if (!storage) return;
 
     const deserializedStorageValue = await storage.getItem(options.name);
-
-    console.log('GET: ', deserializedStorageValue);
 
     if (
       deserializedStorageValue &&
