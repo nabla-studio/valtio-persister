@@ -12,7 +12,7 @@
         "outputPath": "dist/packages/persister",
         "main": "packages/persister/src/index.ts",
         "tsConfig": "packages/persister/tsconfig.lib.json",
-        "assets": ["packages/persister/*.md"]
+        "assets": ["packages/persister/*.md", "LICENSE", "LICENSE-ZUSTAND"]
       }
     },
     "lint": {

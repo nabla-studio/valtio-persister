@@ -5,6 +5,7 @@
     "valtio": "^1.13.2"
   },
   "sideEffects": false,
+  "type": "module",
   "main": "./index.js",
   "module": "./index.mjs",
   "typings": "./index.d.ts"
