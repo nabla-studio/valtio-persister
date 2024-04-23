@@ -76,7 +76,7 @@ export const proxyWithPersister = <T extends object>(
     );
   }
 
-  let store = proxy(state);
+  const store = proxy(state);
 
   const setItem = () => {
     const state = options.partialize({ ...store });
@@ -128,12 +128,11 @@ export const proxyWithPersister = <T extends object>(
 
       const stateFromStorage = options.merge(migratedState as T, store);
 
-      store = {
-        ...state,
-        ...stateFromStorage,
-      };
-
-      console.log('store:', store);
+      Object.keys(stateFromStorage).forEach((key) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        store[key] = stateFromStorage[key];
+      });
 
       postRehydrationCallback?.(stateFromStorage, undefined);
     } catch (e) {

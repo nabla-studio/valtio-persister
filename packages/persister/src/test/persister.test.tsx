@@ -90,7 +90,7 @@ describe('proxyWithPersister', () => {
     expect(store).toStrictEqual({ ...state, counter: 0 });
     expect(localStorage.getItem(persisterName)).toStrictEqual(
       JSON.stringify({
-        state: { counter: 0 },
+        state: { counter: 1 },
         version: 0,
       })
     );
