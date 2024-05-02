@@ -1,17 +1,20 @@
-name: CI
+name: validate and release
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main', 'next']
   pull_request:
 
-permissions:
-  actions: read
-  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
 
 jobs:
-  main:
+  lint:
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,5 +39,84 @@ jobs:
       - run: git branch --track main origin/main
         if: ${{ github.event_name == 'pull_request' }}
 
-      - run: pnpm exec nx-cloud record -- nx format:check --exclude example
-      - run: pnpm exec nx affected -t lint test build --exclude example
+      - name: Checks
+        run: |
+          pnpm exec nx-cloud record -- nx format:check --exclude example
+          pnpm exec nx affected -t lint test --exclude example
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Connect your workspace on nx.app and uncomment this to enable task distribution.
+      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "build" targets have been requested
+      # - run: pnpm exec nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Build
+        run: |
+          pnpm exec nx affected -t build --exclude example
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: all-build-artifacts
+          path: |
+            dist
+
+  release:
+    name: Release
+    needs: [lint, build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      NPM_CONFIG_PROVENANCE: 'true'
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    if: ${{ github.repository == 'nabla-studio/valtio-persister' &&
+      contains('refs/heads/main', github.ref) && github.event_name == 'push' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Connect your workspace on nx.app and uncomment this to enable task distribution.
+      # The "--stop-agents-after" is optional, but allows idle agents to shut down once the "build" targets have been requested
+      # - run: pnpm exec nx-cloud start-ci-run --distribute-on="5 linux-medium-js" --stop-agents-after="build"
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+      # Cache node_modules
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'pnpm'
+      - run: pnpm install --frozen-lockfile
+      - uses: nrwl/nx-set-shas@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: all-build-artifacts
+          path: dist
+
+      - name: Release
+        run: pnpm exec tsx scripts/release.ts --dry-run=false

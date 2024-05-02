@@ -25,6 +25,10 @@ export default defineConfig({
           src: '../../LICENSE-ZUSTAND',
           dest: '../../packages/persister',
         },
+        {
+          src: '../../README.md',
+          dest: '../../packages/persister',
+        },
       ],
     }),
   ],
