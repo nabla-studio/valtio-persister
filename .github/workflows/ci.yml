@@ -1,17 +1,20 @@
-name: CI
+name: validate and release
 
 on:
   push:
-    branches:
-      - main
+    branches: ['main', 'next']
   pull_request:
 
-permissions:
-  actions: read
-  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUSKY: 0
 
 jobs:
-  main:
+  lint:
+    name: Lint & Test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -36,5 +39,7 @@ jobs:
       - run: git branch --track main origin/main
         if: ${{ github.event_name == 'pull_request' }}
 
-      - run: pnpm exec nx-cloud record -- nx format:check --exclude example
-      - run: pnpm exec nx affected -t lint test build --exclude example
+      - name: Checks
+        run: |
+          pnpm exec nx-cloud record -- nx format:check --exclude example
+          pnpm exec nx affected -t lint test build --exclude example
