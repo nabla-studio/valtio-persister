@@ -54,7 +54,8 @@
     "projectsRelationship": "independent",
     "changelog": {
       "projectChangelogs": {
-        "createRelease": "github"
+        "createRelease": "github",
+        "renderer": "scripts/changelog-renderer"
       },
       "automaticFromRef": true
     },
