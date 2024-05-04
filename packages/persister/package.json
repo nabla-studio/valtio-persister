@@ -4,6 +4,9 @@
   "dependencies": {
     "valtio": "^1.13.2"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "sideEffects": false,
   "type": "module",
   "main": "./index.js",
