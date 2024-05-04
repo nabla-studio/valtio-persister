@@ -48,5 +48,17 @@
         "linter": "eslint"
       }
     }
+  },
+  "release": {
+    "projects": ["*", "!example"],
+    "projectsRelationship": "independent",
+    "changelog": {
+      "projectChangelogs": {
+        "createRelease": "github"
+      }
+    },
+    "version": {
+      "conventionalCommits": true
+    }
   }
 }
