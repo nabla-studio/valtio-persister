@@ -53,7 +53,7 @@
     "projects": ["*", "!example"],
     "projectsRelationship": "independent",
     "changelog": {
-      "projectChangelogs": {
+      "workspaceChangelog": {
         "file": false,
         "createRelease": "github"
       },

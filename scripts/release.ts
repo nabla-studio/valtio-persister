@@ -30,12 +30,13 @@ import * as yargs from 'yargs';
     verbose: options.verbose,
   });
 
-  await releaseChangelog({
+  /* await releaseChangelog({
     versionData: projectsVersionData,
     version: workspaceVersion,
+    createRelease: 'github',
     dryRun: options.dryRun,
     verbose: options.verbose,
-  });
+  }); */
 
   if (workspaceVersion === null) {
     console.log('Skipping: ⏭️ No changes detected across any package.');
