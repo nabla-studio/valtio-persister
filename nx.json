@@ -55,7 +55,8 @@
     "changelog": {
       "projectChangelogs": {
         "createRelease": "github"
-      }
+      },
+      "automaticFromRef": true
     },
     "version": {
       "conventionalCommits": true,
