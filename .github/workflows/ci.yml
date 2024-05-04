@@ -83,7 +83,10 @@ jobs:
           pnpm exec nx affected -t build --exclude example
 
       - name: Release
-        run: pnpm exec nx release publish --tag
+        run: pnpm exec nx release --verbose
+
+      - name: Publish
+        run: pnpm exec nx publish --verbose --tag
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
