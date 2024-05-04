@@ -4,6 +4,9 @@
   "dependencies": {
     "valtio": "^1.13.2"
   },
+  "repository": {
+    "url": "https://github.com/nabla-studio/valtio-persister"
+  },
   "publishConfig": {
     "access": "public"
   },
