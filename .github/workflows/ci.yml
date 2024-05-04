@@ -117,7 +117,8 @@ jobs:
           path: dist
 
       - name: Release
-        run: pnpm exec tsx scripts/release.ts --dry-run=false
+        run: pnpm exec nx release publish
+        shell: bash
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
