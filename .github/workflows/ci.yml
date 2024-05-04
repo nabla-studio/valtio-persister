@@ -82,6 +82,9 @@ jobs:
         run: |
           pnpm exec nx affected -t build --exclude example
 
+      - name: Setup git user to "🤖 nabla bot"
+        run: git config user.email "-" && git config user.name "🤖 nabla bot"
+
       - name: Release
         run: pnpm exec nx release --verbose
         env:
