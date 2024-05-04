@@ -85,10 +85,8 @@ jobs:
     permissions:
       contents: write
       id-token: write
+    timeout-minutes: 10
     env:
-      NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      NPM_CONFIG_PROVENANCE: 'true'
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     if: ${{ github.repository == 'nabla-studio/valtio-persister' &&
       contains('refs/heads/main', github.ref) && github.event_name == 'push' }}
@@ -120,3 +118,7 @@ jobs:
 
       - name: Release
         run: pnpm exec tsx scripts/release.ts --dry-run=false
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
