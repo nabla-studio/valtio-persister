@@ -54,7 +54,6 @@
     "projectsRelationship": "independent",
     "changelog": {
       "workspaceChangelog": {
-        "file": false,
         "createRelease": "github"
       },
       "automaticFromRef": true
