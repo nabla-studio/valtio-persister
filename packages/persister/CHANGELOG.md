@@ -1,3 +1,15 @@
+## 0.2.0 (2024-05-05)
+
+
+### 🚀 Features
+
+- **persister:** :loud_sound: improve error log ([c94eeb9](https://github.com/nabla-studio/valtio-persister/commit/c94eeb9))
+
+
+### ❤️  Thank You
+
+- Davide Segullo @DavideSegullo
+
 ## 0.1.0 (2024-05-05)
 
 ### 🚀 Features
