@@ -12,6 +12,11 @@
       "cache": true,
       "dependsOn": ["^build"],
       "inputs": ["default", "^default"]
+    },
+    "nx-release-publish": {
+      "options": {
+        "packageRoot": "dist/packages/{projectName}"
+      }
     }
   },
   "plugins": [
@@ -59,9 +64,11 @@
       "automaticFromRef": true
     },
     "version": {
-      "conventionalCommits": true,
       "generatorOptions": {
-        "fallbackCurrentVersionResolver": "disk"
+        "specifierSource": "conventional-commits",
+        "currentVersionResolver": "git-tag",
+        "fallbackCurrentVersionResolver": "disk",
+        "packageRoot": "dist/packages/{projectName}"
       }
     }
   }
