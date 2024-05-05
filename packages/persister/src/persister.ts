@@ -106,7 +106,7 @@ export const proxyWithPersister = <T extends object>(
         );
       }
       console.error(
-        `State loaded from storage couldn't be migrated since no migrate function was provided`
+        `[valtio persister] State loaded from storage couldn't be migrated since no migrate function was provided`
       );
     }
 
